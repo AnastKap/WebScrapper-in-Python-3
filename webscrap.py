@@ -1,9 +1,3 @@
-#TODO: cannot read tag attributes where there are spaces (Fixed)
-#TODO: cannot undertand when < sign does not indicate element tag start...it's special characters issue
-#TODO: cannot undrestand comments (Fixed)
-
-
-
 #An empty element when no element found from element finding tecniques
 class EmptyElement():
     def __init__(self):
@@ -14,6 +8,13 @@ class EmptyElement():
 empty = EmptyElement
 
 
+
+#The WebScrap class that is used to process the whole HTML document
+#Methods(that are supposed to be used by programmer):
+#   get_element_by_id(id_to_find)
+#   get_elements_by_tag_name(tag)
+#   get_elements() (returns all child elements)
+#   get_innerHTML()
 class WebScrap:
     def __init__(self, filename, enc = "utf-8"):
         file = open(filename, "r", encoding = enc)
@@ -60,6 +61,7 @@ class WebScrap:
     def get_innerHTML(self):
         return self.__innerHTML
 
+
     def print_tags(self, tab = 0):
         for i in range(0, len(self.__elements)):
             for j in range(0, tab):
@@ -84,7 +86,17 @@ class WebScrap:
             self.__elements[i].print_elements_with_id(tab + 1)
 
 
-
+#The Element class for every element that's found
+#Methods(that are supposed to be used by programmer when dealing with element class):
+#   get_element_end() (returns the index where the element stops)
+#   get_tag()
+#   get_parent()
+#   get_elements() (returns all child elements in list of Element)
+#   get_attributes() (returns a list of the form [[attribut1, value1], [attribute2,
+#   get_attribute_value(attribute) (returns the value)
+#   get_element_by_id(id_to_find)
+#   get_elements_by_tag_name(tag)  (returns all child elements with this tag name in list of Element)
+#   get_innerHTML()
 class Element:
     def __init__(self, start_index, parent, doc):
         self.__doc = doc
@@ -290,14 +302,3 @@ class Element:
         print(self.__tag, ":", self.__id)
         for i in range(0, len(self.__elements)):
             self.__elements[i].print_elements_with_id(tab + 1)
-
-
-
-# For testing purposes
-def main():
-    webscr = WebScrap("test.html")
-    print(webscr.get_element_by_id("side").get_elements_by_tag_name("div")[0].get_elements_by_tag_name("span")[2].get_elements_by_tag_name("a")[0].get_attribute_value("href"))
-
-
-if __name__ == "__main__":
-    main()
